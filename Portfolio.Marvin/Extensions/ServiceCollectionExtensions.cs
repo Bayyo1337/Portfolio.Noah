@@ -35,6 +35,7 @@ public static class ServiceCollectionExtensions
          .AddSingleton<ITerminalCommand, NiklasCommand>()
          .AddSingleton<ITerminalCommand, LukasCommand>()
          .AddSingleton<ITerminalCommand, NoahCommand>()
+         .AddSingleton<ITerminalCommand, SandroCommand>()
          .AddSingleton<ITerminalCommand, SudoCommand>()
          .AddSingleton<ITerminalCommand, HireCommand>();
    }
