@@ -1,35 +1,48 @@
-﻿@using Portfolio.Marvin.Components.Common
-@using Portfolio.Marvin.Enums
+@using Portfolio.Marvin.Components.Common
+@using Portfolio.Marvin.Models.Configuration
+@using Portfolio.Marvin.Providers.Interfaces
+@using Microsoft.Extensions.Options
+
+@inject IOptions<PortfolioConfiguration> Configuration
+@inject ISkillProvider SkillProvider
 
 <div class="personal">
    <div class="me-wrapper">
-      <div class="me-image"></div>
+      <div class="me-image" style="background-image: url('@Config.GeneralInfo.ImageUrl')"></div>
    </div>
-   <h3 class="name">Marvin Drude</h3>
-   <h4 class="job">Senior Software Developer</h4>
+   <h3 class="name">@Config.GeneralInfo.Name</h3>
+   <h4 class="job">@Config.GeneralInfo.JobTitle</h4>
 
-   <div class="current-employment">
-      Currently at
-      <div class="employer-logo"></div>
-   </div>
+   @if (!string.IsNullOrEmpty(Config.GeneralInfo.CurrentEmployer))
+   {
+       <div class="current-employment">
+          Currently at
+          @if (!string.IsNullOrEmpty(Config.GeneralInfo.CurrentEmployerLogoUrl))
+          {
+            <div class="employer-logo" style="background-image: url('@Config.GeneralInfo.CurrentEmployerLogoUrl')"></div>
+          }
+          else
+          {
+             <span>@Config.GeneralInfo.CurrentEmployer</span>
+          }
+       </div>
+   }
 
    <div class="links">
       <PersonalLink SvgName="marker">
-         <span style="font-size: 19px">NRW, Germany</span>
+         <span style="font-size: 19px">@Config.GeneralInfo.Location</span>
       </PersonalLink>
-      <PersonalLink SvgName="github">
-         <a href="https://github.com/MarvinDrude" class="simple-link" target="_blank" style="font-size: 19px">@@MarvinDrude</a>
-      </PersonalLink>
-      <PersonalLink SvgName="linkedin">
-         <a href="https://www.linkedin.com/in/marvin-drude-55705825a" class="simple-link" target="_blank" style="font-size: 19px">LinkedIn</a>
-      </PersonalLink>
-      <PersonalLink SvgName="instagram">
-         <a href="https://www.instagram.com/marvindrudee" class="simple-link" target="_blank" style="font-size: 19px">@@marvindrudee</a>
-      </PersonalLink>
+
+      @foreach (var link in Config.SocialLinks)
+      {
+          <PersonalLink SvgName="@link.IconName">
+             <a href="@link.Url" class="simple-link" target="_blank" style="font-size: 19px">@link.DisplayText</a>
+          </PersonalLink>
+      }
    </div>
 
-   <div class="technologies">Technologies I love and currently use</div>
-   <TechnologyList Kinds="@_technologies"/>
+   <div class="technologies">Skills I love and currently use</div>
+   <TechnologyList SkillIds="@_skills"/>
    
    <div class="cv">This websites also generates my CV, open it with the link below</div>
    <NavLink class="cv-link" href="/cv" target="_blank">Open CV</NavLink>
@@ -41,12 +54,12 @@
 </div>
 
 @code {
+   private PortfolioConfiguration Config => Configuration.Value;
+   private List<string> _skills = [];
 
-   private readonly List<TechnologyKind> _technologies = [
-      TechnologyKind.CSharp, TechnologyKind.Net, 
-      TechnologyKind.Blazor, TechnologyKind.PostgreSql,
-      TechnologyKind.Html5, TechnologyKind.Css,
-      TechnologyKind.JavaScript
-   ];
-
+   protected override void OnInitialized()
+   {
+       // Pick some highlighted skills or all
+       _skills = Config.Skills.Take(7).Select(s => s.Id).ToList();
+   }
 }

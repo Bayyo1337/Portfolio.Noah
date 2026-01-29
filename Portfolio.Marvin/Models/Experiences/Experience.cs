@@ -1,19 +1,15 @@
-﻿using Portfolio.Marvin.Enums;
+using Portfolio.Marvin.Models.Configuration;
 
 namespace Portfolio.Marvin.Models.Experiences;
 
-public sealed class Experience
+public class Experience
 {
-   public required string JobTitle { get; set; }
-   
-   public required string CompanyName { get; set; }
-   public required string CompanyImageUrl { get; set; }
-
-   public List<string> Descriptions { get; set; } = [];
-   
-   public required DateTimeOffset StartedAt { get; set; }
-   public DateTimeOffset EndedAt { get; set; } = DateTimeOffset.MaxValue;
-   
-   public List<TechnologyKind> Technologies { get; set; } = [];
-   public List<string> ImageUrls { get; set; } = [];
+    public string CompanyName { get; set; } = string.Empty;
+    public string CompanyImageUrl { get; set; } = string.Empty;
+    public string JobTitle { get; set; } = string.Empty;
+    public DateTimeOffset StartedAt { get; set; }
+    public DateTimeOffset? EndedAt { get; set; }
+    public List<string> ImageUrls { get; set; } = []; // Kept for compatibility if needed, though config doesn't use it yet
+    public List<string> SkillIds { get; set; } = [];
+    public List<string> Descriptions { get; set; } = [];
 }

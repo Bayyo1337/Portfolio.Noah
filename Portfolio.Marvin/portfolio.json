@@ -1,0 +1,57 @@
+{
+  "GeneralInfo": {
+    "Name": "Noah Richter",
+    "JobTitle": "Maker & Engineer",
+    "Description": "Portfolio of Noah Richter - 3D Printing, Linux, HomeAssistant",
+    "Location": "NRW, Germany",
+    "Email": "kontakt@noahrichter.com",
+    "Website": "https://noahrichter.com",
+    "ImageUrl": "/brand.webp",
+    "CurrentEmployer": "Self-Employed",
+    "CurrentEmployerLogoUrl": ""
+  },
+  "SectionSettings": {
+    "ShowTerminal": true,
+    "ShowExperiences": true,
+    "ShowProjects": true,
+    "ShowContact": true,
+    "ShowBlogs": true,
+    "ShowHomeAssistant": true
+  },
+  "HomeAssistant": {
+    "BaseUrl": "http://homeassistant.local:8123",
+    "TokenEnvVar": "PORTFOLIO_HA_TOKEN",
+    "Sensors": [
+      { "EntityId": "sensor.3d_printer_status", "Name": "3D Printer", "Icon": "printer-3d", "Unit": "" },
+      { "EntityId": "sensor.sprinter_temperature", "Name": "Sprinter Temp", "Icon": "thermometer", "Unit": "°C" }
+    ]
+  },
+  "SocialLinks": [
+    {
+      "Name": "GitHub",
+      "Url": "https://github.com/NoahRichter",
+      "DisplayText": "@NoahRichter",
+      "IconName": "github"
+    }
+  ],
+  "Skills": [
+    { "Id": "Linux", "Name": "Linux", "LogoUrl": "logo_linux", "Color": "#f7df1e", "IsDark": false },
+    { "Id": "CAD", "Name": "CAD", "LogoUrl": "logo_cad", "Color": "#e34f26", "IsDark": true },
+    { "Id": "3DPrint", "Name": "3D Printing", "LogoUrl": "logo_3dprint", "Color": "#1572b6", "IsDark": true },
+    { "Id": "HomeAssistant", "Name": "HomeAssistant", "LogoUrl": "logo_ha", "Color": "#41bdf5", "IsDark": false }
+  ],
+  "Experiences": [
+    {
+      "CompanyName": "Maker Space",
+      "CompanyImageUrl": "",
+      "JobTitle": "Lead Maker",
+      "StartedAt": "2020-01-01T00:00:00+00:00",
+      "DescriptionPoints": [
+        "Building cool stuff.",
+        "Automating everything."
+      ],
+      "SkillIds": [ "Linux", "3DPrint", "HomeAssistant" ]
+    }
+  ],
+  "Projects": []
+}

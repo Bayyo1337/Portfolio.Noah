@@ -1,41 +1,54 @@
-﻿@using Portfolio.Marvin.Models.Projects
+@using Portfolio.Marvin.Components.Common
+@using Portfolio.Marvin.Models.Projects
 
 <div class="project">
-   <div class="left">
-      <div class="header">
-         @if (Project.ProjectUrl is not null)
-         {
-            <div class="button-wrapper">
-               <a class="go-to" target="_blank" href="@Project.ProjectUrl">Go to project</a>
-            </div>
-         }
-         <div class="text">
-            <h3>@Project.Name</h3>
-            <div class="since">SINCE @(Project.StartedAt.ToString("MM-yyyy"))</div>
+   <div class="header">
+      <div class="title-row">
+         <div class="title">
+            @Project.Name
+            <div class="date">@Project.StartedAt.ToString("MMM yyyy")</div>
          </div>
-      </div>
-
-      <ul>
-         @foreach (var note in Project.Descriptions)
+         @if (!string.IsNullOrEmpty(Project.ProjectUrl))
          {
-            <li>@note</li>
+             <div class="links">
+                <a href="@Project.ProjectUrl" target="_blank" class="project-link">
+                   View Project
+                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                      <polyline points="15 3 21 3 21 9"></polyline>
+                      <line x1="10" y1="14" x2="21" y2="3"></line>
+                   </svg>
+                </a>
+             </div>
          }
-      </ul>
+      </div>
    </div>
+
    @if (Project.ImageUrls.Count > 0)
    {
-      <div class="right">
+      <div class="images">
          @foreach (var imageUrl in Project.ImageUrls)
          {
-            <img src="@(imageUrl)" width="100%" alt="Project image..." loading="lazy" />
+            <div class="image-wrapper">
+               <img src="@imageUrl" alt="Project Screenshot"/>
+            </div>
          }
       </div>
    }
+
+   <div class="description-list">
+      <ul>
+         @foreach (var description in Project.Descriptions)
+         {
+            <li>@description</li>
+         }
+      </ul>
+   </div>
+
+   <TechnologyList SkillIds="@Project.SkillIds"/>
 </div>
 
 @code {
-   
    [Parameter, EditorRequired]
    public required Project Project { get; set; }
-   
 }

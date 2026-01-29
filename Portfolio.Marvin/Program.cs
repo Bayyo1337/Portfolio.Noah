@@ -1,8 +1,15 @@
 using Portfolio.Marvin.Components;
 using Portfolio.Marvin.Extensions;
+using Portfolio.Marvin.Models.Configuration;
 using Portfolio.Marvin.Providers.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Load portfolio.json
+builder.Configuration.AddJsonFile("portfolio.json", optional: true, reloadOnChange: true);
+
+// Bind configuration
+builder.Services.Configure<PortfolioConfiguration>(builder.Configuration);
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
@@ -16,6 +23,8 @@ builder.Services
 var app = builder.Build();
 
 var blogProvider = app.Services.GetRequiredService<IBlogProvider>();
+// Create directories if not exist
+Directory.CreateDirectory(Path.Combine(app.Environment.WebRootPath, "blogs-pages"));
 await blogProvider.Reload();
 
 app.UseResponseCompression(); 

@@ -1,4 +1,4 @@
-﻿@using Portfolio.Marvin.Models.Experiences
+@using Portfolio.Marvin.Models.Experiences
 
 <div class="experience">
    <h3>@Experience.JobTitle</h3>
@@ -31,11 +31,17 @@
       return $"{GetDateString(Experience.StartedAt)} — {GetDateString(Experience.EndedAt)}";
    }
    
-   private string GetDateString(DateTimeOffset date)
+   private string GetDateString(DateTimeOffset? date)
    {
-      return date == DateTimeOffset.MaxValue 
-         ? "PRESENT" 
-         : $"{date.Month:D2}-{date.Year}";
+       if (!date.HasValue || date == DateTimeOffset.MaxValue)
+       {
+           return "PRESENT";
+       }
+       return $"{date.Value.Month:D2}-{date.Value.Year}";
    }
    
+   private string GetDateString(DateTimeOffset date)
+   {
+      return $"{date.Month:D2}-{date.Year}";
+   }
 }

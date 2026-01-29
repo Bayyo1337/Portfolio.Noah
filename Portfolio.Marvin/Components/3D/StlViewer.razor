@@ -1,0 +1,61 @@
+@inject IJSRuntime JsRuntime
+
+<div class="stl-viewer-container" style="width: 100%; height: 400px; position: relative;">
+    <div @ref="_container" style="width: 100%; height: 100%;"></div>
+    @if (_isLoading)
+    {
+        <div class="loading-overlay">
+            <div class="spinner"></div>
+            <span>Loading 3D Model...</span>
+        </div>
+    }
+    <div class="controls">
+        <button class="btn-control" @onclick="ToggleRotation" title="Toggle Auto-Rotation">
+            @( _autoRotate ? "Pause" : "Rotate" )
+        </button>
+    </div>
+</div>
+
+@code {
+    [Parameter] public string ModelUrl { get; set; } = string.Empty;
+    [Parameter] public string BackgroundColor { get; set; } = "#f0f0f0";
+
+    private ElementReference _container;
+    private bool _isLoading = true;
+    private bool _autoRotate = true;
+    private IJSObjectReference? _module;
+    private IJSObjectReference? _viewerInstance;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _module = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/stl-viewer.js");
+            _viewerInstance = await _module.InvokeAsync<IJSObjectReference>("initViewer", _container, ModelUrl, BackgroundColor);
+            _isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task ToggleRotation()
+    {
+        _autoRotate = !_autoRotate;
+        if (_viewerInstance != null)
+        {
+            await _viewerInstance.InvokeVoidAsync("setAutoRotate", _autoRotate);
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_viewerInstance != null)
+        {
+            await _viewerInstance.InvokeVoidAsync("dispose");
+            await _viewerInstance.DisposeAsync();
+        }
+        if (_module != null)
+        {
+            await _module.DisposeAsync();
+        }
+    }
+}
