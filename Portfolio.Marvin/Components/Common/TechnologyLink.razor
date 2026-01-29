@@ -1,37 +1,21 @@
-﻿@using Portfolio.Marvin.Enums
-@using Portfolio.Marvin.Models.Technologies
+@using Portfolio.Marvin.Models.Configuration
 @using Portfolio.Marvin.Providers.Interfaces
+@inject ISkillProvider SkillProvider
 
-@inject ITechnologyProvider Provider
-
-@if (_technology is not null)
+@if (Skill != null)
 {
-   <div class="technology">
-      <div class="icon">
-         <div class="image" style="background-image: url('technologies/@(_technology.Logo.FileName).svg');"></div>
-      </div>
-      <div class="text">
-         @_technology.Name
-      </div>
-   </div>
+    <div class="technology-link" style="--hover-color: @Skill.Color; --is-dark: @(Skill.IsDark ? "black" : "white")">
+        @if (!string.IsNullOrEmpty(Skill.LogoUrl))
+        {
+            <div class="icon @Skill.LogoUrl"></div>
+        }
+        <div class="name">@Skill.Name</div>
+    </div>
 }
 
 @code {
-   
-   [Parameter, EditorRequired]
-   public required TechnologyKind Kind { get; set; }
+    [Parameter, EditorRequired]
+    public required string SkillId { get; set; }
 
-   private Technology? _technology;
-
-   public override Task SetParametersAsync(ParameterView parameters)
-   {
-      var value = parameters.GetValueOrDefault<TechnologyKind>(nameof(Kind));
-      if (value != Kind)
-      {
-         _technology = Provider.GetTechnology(value);
-      }
-      
-      return base.SetParametersAsync(parameters);
-   }
-
+    private SkillConfig? Skill => SkillProvider.GetSkill(SkillId);
 }

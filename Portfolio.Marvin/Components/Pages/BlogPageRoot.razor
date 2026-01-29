@@ -1,7 +1,8 @@
-﻿@page "/blogs/{*RelativePath}"
+@page "/blogs/{*RelativePath}"
 @using Microsoft.AspNetCore.Html
 @using Portfolio.Marvin.Components.Common
 @using Portfolio.Marvin.Components.Personal
+@using Portfolio.Marvin.Components.3D
 @using Portfolio.Marvin.Models.Blogs
 @using Portfolio.Marvin.Providers.Interfaces
 
@@ -18,7 +19,7 @@
                 Description="@_blogPage.Meta.Description"
                 ImageUrl="@_blogPage.Meta.Image"
                 Keywords="@(string.Join(", ", _blogPage.Meta.Tags))"
-                SiteName="Marvin Drude - Portfolio"
+                SiteName="Noah Richter - Portfolio"
                 Type="website" />
    }
 </HeadContent>
@@ -27,14 +28,26 @@
 {
    <div class="page">
       <h1>@_blogPage.Meta.Title</h1>
+
+      <!-- 3D Model Support -->
+      @if (!string.IsNullOrEmpty(_blogPage.Meta.ModelUrl))
+      {
+          <div class="model-wrapper">
+              <StlViewer ModelUrl="@_blogPage.Meta.ModelUrl" />
+          </div>
+      }
+
       <div class="content">
          <div class="markdown">
             @(new MarkupString(_blogPage.Content))
          </div>
          <div class="info">
-            <div class="image-wrapper">
-               <img src="@_blogPage.Meta.Image" loading="lazy" alt="..." />
-            </div>
+            @if (!string.IsNullOrEmpty(_blogPage.Meta.Image) && string.IsNullOrEmpty(_blogPage.Meta.ModelUrl))
+            {
+                <div class="image-wrapper">
+                   <img src="@_blogPage.Meta.Image" loading="lazy" alt="..." />
+                </div>
+            }
             <div class="tags">
                @foreach (var tag in _blogPage.Meta.Tags)
                {
@@ -42,7 +55,7 @@
                }
             </div>
             <div class="techs">
-               <TechnologyList Kinds="@_blogPage.Meta.Technologies" />
+               <TechnologyList SkillIds="@_blogPage.Meta.SkillIds" />
             </div>
             <PersonalLink SvgName="calendar">
                <span>@(_blogPage.Meta.Date.ToString("yyyy-MM-dd"))</span>

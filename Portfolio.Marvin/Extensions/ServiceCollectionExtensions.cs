@@ -1,4 +1,4 @@
-﻿using Portfolio.Marvin.Providers;
+using Portfolio.Marvin.Providers;
 using Portfolio.Marvin.Providers.Interfaces;
 using Portfolio.Marvin.Terminals;
 using Portfolio.Marvin.Terminals.Commands;
@@ -18,10 +18,11 @@ public static class ServiceCollectionExtensions
    public static IServiceCollection AddProviders(this IServiceCollection services, IConfiguration configuration)
    {
       return services
-         .AddSingleton<ITechnologyProvider, TechnologyProvider>()
+         .AddSingleton<ISkillProvider, SkillProvider>()
          .AddSingleton<IExperienceProvider, ExperienceProvider>()
          .AddSingleton<IProjectProvider, ProjectProvider>()
-         .AddSingleton<IBlogProvider, BlogProvider>();
+         .AddSingleton<IBlogProvider, BlogProvider>()
+         .AddHttpClient<IHomeAssistantService, HomeAssistantService>().Services;
    }
 
    public static IServiceCollection AddTerminalCommands(this IServiceCollection services, IConfiguration configuration)
@@ -32,9 +33,6 @@ public static class ServiceCollectionExtensions
          .AddSingleton<TerminalPublicCommands>()
          .AddSingleton<ITerminalCommand, HelpCommand>()
          .AddSingleton<ITerminalCommand, SkillsCommand>()
-         .AddSingleton<ITerminalCommand, NiklasCommand>()
-         .AddSingleton<ITerminalCommand, LukasCommand>()
-         .AddSingleton<ITerminalCommand, SudoCommand>()
-         .AddSingleton<ITerminalCommand, HireCommand>();
+         .AddSingleton<ITerminalCommand, SudoCommand>();
    }
 }

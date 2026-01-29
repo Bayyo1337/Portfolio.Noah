@@ -1,56 +1,37 @@
-﻿@using Portfolio.Marvin.Components.Common
+@using Portfolio.Marvin.Components.Common
 @using Portfolio.Marvin.Models.Experiences
 
-<div class="wrapper">
-   <div class="timeline">
-      <div class="line"></div>
+<div class="experience">
+   <div class="header">
+      <div class="date-range">
+         <span class="date">@GetDateString(Experience.StartedAt)</span>
+         <span class="separator">-</span>
+         <span class="date">@GetDateString(Experience.EndedAt)</span>
+      </div>
+      <div class="title">@Experience.JobTitle</div>
+      <div class="company">@Experience.CompanyName</div>
    </div>
-   <div class="panel">
-      <div class="time">
-         @GetDatesString()
-      </div>
-      <div class="details">
-         <div class="header">
-            <div class="icon">
-               <div class="company-image" style="background-image: url('@(@Experience.CompanyImageUrl)')"></div>
-            </div>
-            <div class="text">
-               <div class="job-title">
-                  @Experience.JobTitle
-               </div>
-               <div class="company">
-                  @Experience.CompanyName
-               </div>
-            </div>
-         </div>
-         <ul class="desc">
-            @foreach (var note in Experience.Descriptions)
-            {
-               <li>@note</li>
-            }
-         </ul>
-      </div>
-      <div class="technologies">
-         <TechnologyList Kinds="Experience.Technologies"></TechnologyList>
-      </div>
+   <div class="description-list">
+      <ul>
+         @foreach (var note in Experience.Descriptions)
+         {
+            <li>@note</li>
+         }
+      </ul>
    </div>
+   <TechnologyList SkillIds="@Experience.SkillIds"/>
 </div>
 
 @code {
-   
    [Parameter, EditorRequired]
    public required Experience Experience { get; set; }
 
-   private string GetDatesString()
+   private string GetDateString(DateTimeOffset? date)
    {
-      return $"{GetDateString(Experience.StartedAt)} — {GetDateString(Experience.EndedAt)}";
+       if (!date.HasValue || date == DateTimeOffset.MaxValue)
+       {
+           return "PRESENT";
+       }
+       return $"{date.Value.Month:D2}-{date.Value.Year}";
    }
-   
-   private string GetDateString(DateTimeOffset date)
-   {
-      return date == DateTimeOffset.MaxValue 
-         ? "PRESENT" 
-         : $"{date.Month:D2}-{date.Year}";
-   }
-   
 }

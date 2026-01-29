@@ -1,15 +1,13 @@
-﻿@using Portfolio.Marvin.Enums
+@using Portfolio.Marvin.Models.Configuration
 
-<div class="list">
-   @foreach (var kind in Kinds)
+<div class="technologies-list">
+   @foreach (var id in SkillIds)
    {
-      <TechnologyLink Kind="@kind" />
+      <TechnologyLink SkillId="@id"/>
    }
 </div>
 
 @code {
-   
    [Parameter, EditorRequired]
-   public required List<TechnologyKind> Kinds { get; set; }
-   
+   public required List<string> SkillIds { get; set; }
 }

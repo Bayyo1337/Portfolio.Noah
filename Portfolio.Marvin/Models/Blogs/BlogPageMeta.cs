@@ -1,34 +1,15 @@
-﻿using Portfolio.Marvin.Enums;
+using Portfolio.Marvin.Models.Blogs;
 
 namespace Portfolio.Marvin.Models.Blogs;
 
-public sealed class BlogPageMeta
+public class BlogPageMeta
 {
-   public required string Title { get; set; }
-   
-   public required string RelativeUrl { get; set; }
-   
-   public required string Description { get; set; }
-
-   public List<string> Tags { get; set; } = [];
-
-   public List<TechnologyKind> Technologies { get; set; } = [];
-   
-   public DateTimeOffset Date { get; set; }
-   
-   public required string Image { get; set; }
-
-   public BlogPageMeta Clone()
-   {
-      return new BlogPageMeta
-      {
-         Title = Title,
-         RelativeUrl = RelativeUrl,
-         Description = Description,
-         Tags = [.. Tags],
-         Technologies = [.. Technologies],
-         Date = Date,
-         Image = Image
-      };
-   }
+    public string Title { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public DateTime Date { get; set; }
+    public string RelativeUrl { get; set; } = string.Empty;
+    public string Image { get; set; } = string.Empty;
+    public string ModelUrl { get; set; } = string.Empty;
+    public List<string> Tags { get; set; } = [];
+    public List<string> SkillIds { get; set; } = [];
 }

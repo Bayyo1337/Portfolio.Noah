@@ -1,0 +1,27 @@
+@using Portfolio.Marvin.Models.Configuration
+@using Portfolio.Marvin.Providers.Interfaces
+@inject IHomeAssistantService HAService
+
+<div class="ha-widget">
+    <div class="icon">
+        @* Simple placeholder for dynamic icons, could be mapped to SVGs later *@
+        <div class="sensor-icon">@Config.Icon</div>
+    </div>
+    <div class="info">
+        <div class="label">@Config.Name</div>
+        <div class="value">@_state @Config.Unit</div>
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired] public SensorConfig Config { get; set; } = default!;
+
+    private string _state = "--";
+
+    protected override async Task OnInitializedAsync()
+    {
+        _state = await HAService.GetStateAsync(Config.EntityId);
+
+        // Optional: Polling timer could be added here
+    }
+}

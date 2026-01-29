@@ -1,41 +1,69 @@
-﻿@page "/"
+@page "/"
 @using Portfolio.Marvin.Components.Common
 @using Portfolio.Marvin.Components.Experiences
 @using Portfolio.Marvin.Components.Portfolios
 @using Portfolio.Marvin.Components.Terminals
+@using Portfolio.Marvin.Components.HomeAssistant
+@using Portfolio.Marvin.Models.Configuration
+@using Microsoft.Extensions.Options
 @layout MainLayout
 
-<PageTitle>Marvin Drude - Portfolio</PageTitle>
+@inject IOptions<PortfolioConfiguration> Configuration
+
+<PageTitle>@Config.GeneralInfo.Name - Portfolio</PageTitle>
 
 <HeadContent>
    <MetaInfo 
-      Title="Marvin Drude - Portfolio"
-      Description="Experiences and projects of Marvin Drude - Senior Full Stack Developer"
-      Keywords="Marvin Drude, Portfolio, C#, .NET, Software Developer"
-      SiteName="Marvin Drude"
-      ImageUrl="/brand.webp"
+      Title="@($"{Config.GeneralInfo.Name} - Portfolio")"
+      Description="@Config.GeneralInfo.Description"
+      Keywords="@($"{Config.GeneralInfo.Name}, Portfolio")"
+      SiteName="@Config.GeneralInfo.Name"
+      ImageUrl="@Config.GeneralInfo.ImageUrl"
       Type="website"
    />
 </HeadContent>
 
-<div class="terminal-wrapper">
-   <Terminal></Terminal>
-</div>
+@if (Config.SectionSettings.ShowTerminal)
+{
+    <div class="terminal-wrapper">
+       <Terminal></Terminal>
+    </div>
+}
+
 <div class="section">
-   <h2 id="experiences">Experiences</h2>
-   <div class="content">
-      <Experiences></Experiences>
-   </div>
+    <HomeAssistantDashboard />
 </div>
-<div class="section">
-   <h2 id="projects">Projects</h2>
-   <div class="content">
-      <Projects></Projects>
-   </div>
-</div>
-<div class="section">
-   <h2 id="contact">Contact</h2>
-   <div class="content">
-      <Contact></Contact>
-   </div>
-</div>
+
+@if (Config.SectionSettings.ShowExperiences)
+{
+    <div class="section">
+       <h2 id="experiences">Experiences</h2>
+       <div class="content">
+          <Experiences></Experiences>
+       </div>
+    </div>
+}
+
+@if (Config.SectionSettings.ShowProjects)
+{
+    <div class="section">
+       <h2 id="projects">Projects</h2>
+       <div class="content">
+          <Projects></Projects>
+       </div>
+    </div>
+}
+
+@if (Config.SectionSettings.ShowContact)
+{
+    <div class="section">
+       <h2 id="contact">Contact</h2>
+       <div class="content">
+          <Contact></Contact>
+       </div>
+    </div>
+}
+
+@code {
+    private PortfolioConfiguration Config => Configuration.Value;
+}

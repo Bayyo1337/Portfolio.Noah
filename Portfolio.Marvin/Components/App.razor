@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <link rel="preload" href="fonts/RobotoMono-VariableFont_wght.ttf" as="font" type="font/ttf" fetchpriority="high" />
@@ -23,6 +23,11 @@
         <link rel="stylesheet" href="@Assets["Portfolio.Marvin.styles.css"]"/>
         <ImportMap/>
         <link rel="icon" type="image/png" href="brand.ico"/>
+
+        <!-- 3D Viewer Libraries (CDN for reliability, or local fallback) -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 
         <HeadOutlet @rendermode="InteractiveServer"/>
     </head>

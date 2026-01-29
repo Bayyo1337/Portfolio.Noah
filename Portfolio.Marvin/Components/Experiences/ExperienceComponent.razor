@@ -1,0 +1,47 @@
+@using Portfolio.Marvin.Components.Common
+@using Portfolio.Marvin.Models.Experiences
+
+<div class="experience">
+   <div class="left">
+      <div class="date-range">
+         <span class="date">@Experience.StartedAt.ToString("MMM yyyy")</span>
+         <span class="separator">-</span>
+         @if (Experience.EndedAt.HasValue)
+         {
+            <span class="date">@Experience.EndedAt.Value.ToString("MMM yyyy")</span>
+         }
+         else
+         {
+            <span class="date">Present</span>
+         }
+      </div>
+      <div class="company-logo">
+         @if (!string.IsNullOrEmpty(Experience.CompanyImageUrl))
+         {
+             <img src="@Experience.CompanyImageUrl" alt="@Experience.CompanyName"/>
+         }
+      </div>
+   </div>
+   <div class="right">
+      <div class="header">
+         <div class="title">@Experience.JobTitle</div>
+         <div class="company">@Experience.CompanyName</div>
+      </div>
+
+      <div class="description-list">
+         <ul>
+            @foreach (var description in Experience.Descriptions)
+            {
+               <li>@description</li>
+            }
+         </ul>
+      </div>
+
+      <TechnologyList SkillIds="@Experience.SkillIds"/>
+   </div>
+</div>
+
+@code {
+   [Parameter, EditorRequired]
+   public required Experience Experience { get; set; }
+}
