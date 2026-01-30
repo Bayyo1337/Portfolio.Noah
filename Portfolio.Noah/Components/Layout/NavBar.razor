@@ -1,0 +1,45 @@
+
+@using Microsoft.Extensions.Options
+@using Portfolio.Noah.Models.Configuration
+@inject IOptions<PortfolioConfiguration> Configuration
+
+<nav id="nav" class="@(_isMenuOpen ? "open" : "")">
+   <div class="left">
+      <NavLink href="/#nav">Start</NavLink>
+      @if (Config.SectionSettings.ShowExperiences)
+      {
+         <NavLink href="/#experiences">Experiences</NavLink>
+      }
+      @if (Config.SectionSettings.ShowProjects)
+      {
+         <NavLink href="/#projects">Projects</NavLink>
+      }
+      @if (Config.SectionSettings.ShowContact)
+      {
+         <NavLink href="/#contact">Contact</NavLink>
+      }
+      @if (Config.SectionSettings.ShowBlogs)
+      {
+         <NavLink href="/blog">Blog</NavLink>
+      }
+   </div>
+   <div class="right">
+      <div class="burger" @onclick="@ToggleMenu">
+         <div></div>
+         <div></div>
+         <div></div>
+      </div>
+   </div>
+</nav>
+
+@code {
+
+   private PortfolioConfiguration Config => Configuration.Value;
+   private bool _isMenuOpen;
+
+   private void ToggleMenu()
+   {
+      _isMenuOpen = !_isMenuOpen;
+   }
+
+}

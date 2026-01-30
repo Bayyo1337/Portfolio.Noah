@@ -1,0 +1,24 @@
+@using Portfolio.Noah.Components.Common
+@using Portfolio.Noah.Models.Projects
+@using Portfolio.Noah.Providers.Interfaces
+@inject IProjectProvider ProjectProvider
+
+<div class="projects">
+   @foreach (var project in _projects)
+   {
+      <ProjectWidget Project="@project"/>
+   }
+</div>
+
+@code {
+
+   private List<Project> _projects = [];
+
+   protected override Task OnInitializedAsync()
+   {
+      _projects = [..ProjectProvider.GetAllProjects()];
+      
+      return base.OnInitializedAsync();
+   }
+
+}

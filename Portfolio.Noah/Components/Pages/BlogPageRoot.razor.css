@@ -1,0 +1,193 @@
+
+.page {
+    padding: 20px;
+}
+
+.page > h1 {
+    color: var(--color-primary);
+    font-size: 30px;
+    padding: 0 0 10px 0;
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--color-quaternary);
+    font-weight : 450;
+}
+
+.page > .content {
+    padding-top: 10px;
+    display: flex;
+    gap: 20px;
+}
+
+.content .markdown {
+    flex: 1;
+    min-width: 0;
+}
+
+.content .info {
+    width: 300px;
+    flex-shrink: 0;
+}
+
+.image-wrapper {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.tags .tag {
+    font-size: 19px;
+    font-weight: 400;
+    cursor: pointer;
+    border-radius: 6px;
+    padding: 7px 15px;
+    background-color: #101419;
+    border: 1px solid var(--color-quaternary);
+}
+
+.techs {
+    margin-bottom: 30px;
+}
+
+::deep h2 {
+    color: var(--color-primary);
+    font-size: 24px;
+    padding: 0 0 10px 0;
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--color-quaternary);
+    font-weight : 400;
+    margin-top: 50px;
+}
+
+::deep h3 {
+    color: var(--color-primary);
+    font-size: 19px;
+    padding: 0 0 5px 0;
+    margin-bottom: 15px;
+    border-bottom: 1px solid var(--color-quaternary);
+    font-weight : 400;
+    margin-top: 20px;
+}
+
+    
+::deep .markdown h2:first-child {
+    margin-top: 0;
+}
+
+::deep .markdown p {
+    margin-bottom: 20px;
+    font-size: 17px !important;
+}
+
+::deep .markdown pre {
+    overflow-x: auto;
+}
+
+::deep .markdown pre code {
+    margin: 20px 0;
+    border-radius: 6px;
+}
+
+::deep .markdown code:not([class]) {
+    background: #1e1e1e;
+    color: #dcdcaa;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.95em;
+    white-space: nowrap;
+}
+
+::deep .markdown pre.shiki {
+    padding: 15px;
+}
+
+::deep .markdown code[class] {
+    counter-reset: step;
+    counter-increment: step 0;
+    font-family: Roboto, serif !important;
+}
+
+::deep .markdown code[class] * {
+    font-family: Roboto, serif !important;
+}
+
+::deep .markdown code[class] .line::before {
+    content: counter(step);
+    counter-increment: step;
+    width: 1rem;
+    margin-right: 1.5rem;
+    display: inline-block;
+    text-align: right;
+    color: rgba(115,138,148,.4)
+}
+
+::deep .markdown ul {
+    list-style-position: inside;
+    padding-left: 0;
+    list-style-type: none;
+}
+
+::deep .markdown ul li {
+    padding-bottom: 10px;
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+    font-size: 17px !important;
+}
+
+::deep .markdown ul li::before {
+    content: "";
+    width: 4px;
+    height: 4px;
+    background: var(--color-secondary);
+    border-radius: 50%;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+::deep .markdown .table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    margin: 15px 0;
+}
+
+::deep .markdown table {
+    width: auto;
+    display: table;
+    min-width: 500px;
+    border-collapse: collapse;
+    white-space: nowrap;
+    font-size: 17px !important;
+}
+
+::deep .markdown table th,
+::deep .markdown table td {
+    border: 1px solid #333;
+    padding: 8px 12px;
+}
+
+@media (max-width: 950px) {
+
+    .page > .content {
+        flex-direction: column-reverse;
+    }
+
+    .content .info {
+        width: 100%;
+    }
+    
+}

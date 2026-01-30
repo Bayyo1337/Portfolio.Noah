@@ -1,0 +1,13 @@
+@using Portfolio.Noah.Models.Configuration
+
+<div class="technologies-list">
+   @foreach (var id in SkillIds)
+   {
+      <TechnologyLink SkillId="@id"/>
+   }
+</div>
+
+@code {
+   [Parameter, EditorRequired]
+   public required List<string> SkillIds { get; set; }
+}

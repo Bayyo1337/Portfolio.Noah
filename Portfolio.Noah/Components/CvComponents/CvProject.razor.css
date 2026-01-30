@@ -1,0 +1,54 @@
+
+.project * {
+    color: #000000;
+}
+
+.project h3 {
+    padding: 0 20px 5px 20px;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.project .detail {
+    display: flex;
+    padding: 0 20px 5px 20px;
+    font-size: 15px;
+    font-weight: 500;
+    font-style: italic;
+}
+
+.project .spacer {
+    flex: 1;
+}
+
+.project .detail > div {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+ul {
+    list-style-position: inside;
+    padding-left: 0;
+    list-style-type: none;
+}
+
+ul li {
+    padding-bottom: 2px;
+    font-size: 12px;
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+}
+
+ul li::before {
+    content: "";
+    width: 4px;
+    height: 4px;
+    background: rgba(0,0,0,0.8);
+    border-radius: 50%;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.summary {
+    padding: 0 20px 20px 20px;
+}

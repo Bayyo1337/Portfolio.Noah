@@ -1,0 +1,41 @@
+@using Portfolio.Noah.Models.Projects
+
+<div class="project">
+   <h3>@Project.Name</h3>
+   <div class="detail">
+      <div class="link">
+         @Project.ProjectUrl
+      </div>
+      <div class="spacer"></div>
+      <div class="date">
+         @GetDatesString()
+      </div>
+   </div>
+   <div class="summary">
+      <ul class="desc">
+         @foreach (var note in Project.Descriptions)
+         {
+            <li>@note</li>
+         }
+      </ul>
+   </div>
+</div>
+
+@code {
+   
+   [Parameter, EditorRequired]
+   public required Project Project { get; set; }
+   
+   private string GetDatesString()
+   {
+      return $"SINCE {GetDateString(Project.StartedAt)}";
+   }
+   
+   private string GetDateString(DateTimeOffset date)
+   {
+      return date == DateTimeOffset.MaxValue 
+         ? "PRESENT" 
+         : $"{date.Month:D2}-{date.Year}";
+   }
+   
+}

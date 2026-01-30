@@ -1,0 +1,19 @@
+@using Portfolio.Noah.Components.HomeAssistant
+@using Portfolio.Noah.Models.Configuration
+@using Microsoft.Extensions.Options
+
+@inject IOptions<PortfolioConfiguration> Configuration
+
+@if (Config.SectionSettings.ShowHomeAssistant && Config.HomeAssistant.Sensors.Count > 0)
+{
+    <div class="ha-widgets-container">
+        @foreach (var sensor in Config.HomeAssistant.Sensors)
+        {
+            <SensorWidget Config="@sensor" />
+        }
+    </div>
+}
+
+@code {
+    private PortfolioConfiguration Config => Configuration.Value;
+}

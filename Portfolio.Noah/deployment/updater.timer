@@ -1,0 +1,10 @@
+[Unit]
+Description=Run Portfolio Auto Updater Daily
+
+[Timer]
+OnCalendar=daily
+RandomizedDelaySec=1h
+Persistent=true
+
+[Install]
+WantedBy=timers.target

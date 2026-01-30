@@ -1,0 +1,21 @@
+@using Portfolio.Noah.Models.Configuration
+@using Portfolio.Noah.Providers.Interfaces
+@inject ISkillProvider SkillProvider
+
+@if (Skill != null)
+{
+    <div class="technology-link" style="--hover-color: @Skill.Color; --is-dark: @(Skill.IsDark ? "black" : "white")">
+        @if (!string.IsNullOrEmpty(Skill.LogoUrl))
+        {
+            <div class="icon @Skill.LogoUrl"></div>
+        }
+        <div class="name">@Skill.Name</div>
+    </div>
+}
+
+@code {
+    [Parameter, EditorRequired]
+    public required string SkillId { get; set; }
+
+    private SkillConfig? Skill => SkillProvider.GetSkill(SkillId);
+}

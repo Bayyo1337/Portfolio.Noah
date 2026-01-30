@@ -1,9 +1,0 @@
-﻿{
-  "Title": "C# 14: The Extension Strikes Back",
-  "RelativeUrl": "extensions/csharp-14",
-  "Description": "How to write zero-allocation c# code and why you should care.",
-  "Tags": ["C#", ".NET", "Extensions"],
-  "Technologies": [1, 2],
-  "Date": "2025-09-22T16:00:00+00:00",
-  "Image": "/images/posts/extensions.webp"
-}

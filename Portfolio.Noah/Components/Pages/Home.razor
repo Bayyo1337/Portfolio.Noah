@@ -1,0 +1,72 @@
+@page "/"
+@using Portfolio.Noah.Components.Common
+@using Portfolio.Noah.Components.Experiences
+@using Portfolio.Noah.Components.Portfolios
+@using Portfolio.Noah.Components.Terminals
+@using Portfolio.Noah.Components.HomeAssistant
+@using Portfolio.Noah.Models.Configuration
+@using Microsoft.Extensions.Options
+@layout MainLayout
+
+@inject IOptions<PortfolioConfiguration> Configuration
+
+<PageTitle>@Config.GeneralInfo.Name - Portfolio</PageTitle>
+
+<HeadContent>
+   <MetaInfo 
+      Title="@($"{Config.GeneralInfo.Name} - Portfolio")"
+      Description="@Config.GeneralInfo.Description"
+      Keywords="@($"{Config.GeneralInfo.Name}, Portfolio")"
+      SiteName="@Config.GeneralInfo.Name"
+      ImageUrl="@Config.GeneralInfo.ImageUrl"
+      Type="website"
+   />
+</HeadContent>
+
+@if (Config.SectionSettings.ShowTerminal)
+{
+    <div class="terminal-wrapper">
+       <Terminal></Terminal>
+    </div>
+}
+
+@if (Config.SectionSettings.ShowHomeAssistant)
+{
+    <div class="section">
+        <HomeAssistantDashboard />
+    </div>
+}
+
+@if (Config.SectionSettings.ShowExperiences)
+{
+    <div class="section">
+       <h2 id="experiences">Experiences</h2>
+       <div class="content">
+          <Experiences></Experiences>
+       </div>
+    </div>
+}
+
+@if (Config.SectionSettings.ShowProjects)
+{
+    <div class="section">
+       <h2 id="projects">Projects</h2>
+       <div class="content">
+          <Projects></Projects>
+       </div>
+    </div>
+}
+
+@if (Config.SectionSettings.ShowContact)
+{
+    <div class="section">
+       <h2 id="contact">Contact</h2>
+       <div class="content">
+          <Contact></Contact>
+       </div>
+    </div>
+}
+
+@code {
+    private PortfolioConfiguration Config => Configuration.Value;
+}

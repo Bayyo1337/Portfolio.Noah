@@ -1,0 +1,149 @@
+
+@layout CvLayout 
+@page "/cv"
+@using Portfolio.Noah.Components.Common
+@using Portfolio.Noah.Components.CvComponents
+@using Portfolio.Noah.Components.Personal
+@using Portfolio.Noah.Models.Configuration
+@using Portfolio.Noah.Models.Experiences
+@using Portfolio.Noah.Models.Projects
+@using Portfolio.Noah.Providers.Interfaces
+@using Microsoft.Extensions.Options
+
+@inject IExperienceProvider ExperienceProvider
+@inject IProjectProvider ProjectProvider
+@inject ISkillProvider SkillProvider
+@inject IOptions<PortfolioConfiguration> Configuration
+
+<PageTitle>@Config.GeneralInfo.Name - CV - @Config.GeneralInfo.JobTitle</PageTitle>
+<HeadContent>
+   <MetaInfo Title="@($"{Config.GeneralInfo.Name} - CV")"
+             Description="@($"CV of {Config.GeneralInfo.Name} - {Config.GeneralInfo.JobTitle}")"
+             ImageUrl="@Config.GeneralInfo.ImageUrl"
+             Keywords="@($"{Config.GeneralInfo.Name}, CV, Portfolio")"
+             SiteName="@($"{Config.GeneralInfo.Name} - Portfolio")"
+             Type="website" />
+</HeadContent>
+
+<div class="cv-page first">
+   <div class="left">
+      <div class="header">
+         <div class="line">
+            <div class="image-wrapper">
+               <div class="me-image" style="background-image: url('@Config.GeneralInfo.ImageUrl')"></div>
+            </div>
+         </div>
+      </div>
+      <div class="contact">
+         <h4>Contact</h4>
+         <PersonalLink SvgName="marker">
+            <span class="link">@Config.GeneralInfo.Location</span>
+         </PersonalLink>
+         <PersonalLink SvgName="browser">
+            <span class="link">@Config.GeneralInfo.Website</span>
+         </PersonalLink>
+         @foreach(var link in Config.SocialLinks)
+         {
+             <PersonalLink SvgName="@link.IconName">
+                <span class="link">@link.Url</span>
+             </PersonalLink>
+         }
+          <PersonalLink SvgName="mobile">
+             <span class="link">@Config.GeneralInfo.Email</span>
+          </PersonalLink>
+      </div>
+      <div class="languages">
+         <h4>Skills</h4>
+         <div class="list">
+            @(string.Join(", ", _skills
+               .Select(x => SkillProvider.GetSkill(x))
+               .Where(x => x is not null)
+               .Select(x => x!.Name)))
+         </div>
+      </div>
+
+      <!-- Education / Interests could be configurable too, but for now we keep it simple or remove hardcoded specific info -->
+      <!-- If you want this dynamic, we need to add Education to the model. I'll comment out hardcoded specific blocks or make them generic placeholders -->
+      <!--
+      <div class="school">
+         <h4>Education</h4>
+         <div>
+             ...
+         </div>
+      </div>
+      -->
+   </div>
+   <div class="right">
+      <div class="header">
+         <h1>@Config.GeneralInfo.Name</h1>
+      </div>
+      <div class="job">
+         @Config.GeneralInfo.JobTitle
+      </div>
+      
+      @if (Config.SectionSettings.ShowExperiences)
+      {
+          <h2>Professional Experiences</h2>
+          @foreach (var experience in _experiences.Take(3))
+          {
+             <CvExperience Experience="@experience"/>
+          }
+      }
+   </div>
+</div>
+
+@if (Config.SectionSettings.ShowExperiences && _experiences.Count > 3)
+{
+    <div class="cv-page right">
+       @foreach (var experience in _experiences.Skip(3))
+       {
+          <CvExperience Experience="@experience"/>
+       }
+
+       @if (Config.SectionSettings.ShowProjects)
+       {
+           <h2>Personal Projects</h2>
+           @foreach (var project in _projects.Take(4))
+           {
+              <CvProject Project="@project" />
+           }
+       }
+    </div>
+}
+else if (Config.SectionSettings.ShowProjects && _projects.Count > 0)
+{
+     <div class="cv-page right">
+       <h2>Personal Projects</h2>
+       @foreach (var project in _projects.Take(4))
+       {
+          <CvProject Project="@project" />
+       }
+    </div>
+}
+
+
+@if (Config.SectionSettings.ShowProjects && _projects.Count > 4)
+{
+    <div class="cv-page right">
+       @foreach (var project in _projects.Skip(4))
+       {
+          <CvProject Project="@project" />
+       }
+    </div>
+}
+
+@code {
+   private PortfolioConfiguration Config => Configuration.Value;
+   private List<Experience> _experiences = [];
+   private List<Project> _projects = [];
+   private List<string> _skills = [];
+
+   protected override Task OnInitializedAsync()
+   {
+      _experiences = [.. ExperienceProvider.GetAllExperiences()];
+      _projects = [.. ProjectProvider.GetAllProjects()];
+      _skills = Config.Skills.Select(s => s.Id).ToList();
+      
+      return base.OnInitializedAsync();
+   }
+}

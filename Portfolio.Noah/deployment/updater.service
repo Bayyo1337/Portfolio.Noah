@@ -1,0 +1,8 @@
+[Unit]
+Description=Portfolio Auto Updater
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/opt/portfolio/update.sh
+User=root
